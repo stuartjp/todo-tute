@@ -19,6 +19,8 @@ angular.module('todo', ['ionic'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    //window.localStorage.clear(); // use to clear storage.
   });
 })
 
@@ -93,7 +95,7 @@ angular.module('todo', ['ionic'])
 
     // Load or initialize projects
     $scope.projects = Projects.all();
-
+    
     // Grab the last active, or the first project
     $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
 
@@ -113,7 +115,7 @@ angular.module('todo', ['ionic'])
     };
 
     // Create our modal
-    $ionicModal.fromTemplateUrl('new-task.html', function (modal) {
+    $ionicModal.fromTemplateUrl('templates/new-task.html', function (modal) {
         $scope.taskModal = modal;
     }, {
         scope: $scope
@@ -123,9 +125,11 @@ angular.module('todo', ['ionic'])
         if (!$scope.activeProject || !task) {
             return;
         }
+
         //console.log('task.title: ' + task.title);
         $scope.activeProject.tasks.push({
-            title: task.title
+            title: task.title,
+            priority: $scope.activeProject.tasks.length+1
         });
         $scope.taskModal.hide();
 
@@ -133,6 +137,21 @@ angular.module('todo', ['ionic'])
         Projects.save($scope.projects);
 
         task.title = "";
+    };
+
+    $scope.removeTask = function (task) {
+        //console.log(task.priority)
+
+        for (i = task.priority; i < $scope.activeProject.tasks.length; i++) {
+            //console.log("here: " + i + " task.title: " + task.title + " task.priority: " + task.priority);
+            //console.log("$scope.activeProject.tasks[i].priority: " + $scope.activeProject.tasks[i].priority)
+            $scope.activeProject.tasks[i].priority = $scope.activeProject.tasks[i].priority - 1; //not sure if I can assign a value in json like this
+        }
+
+        $scope.activeProject.tasks.splice(task.priority - 1, 1);
+
+        // Inefficient, but save all the projects
+        Projects.save($scope.projects);
     };
 
     $scope.newTask = function () {
@@ -164,47 +183,3 @@ angular.module('todo', ['ionic'])
     }, 1000);
 
 })
-
-
-//.controller('TodoCtrl', function ($scope, $ionicModal) {
-//    $scope.tasks = [];
-
-//    //$scope.tasks = [
-//    //    { title: 'Collect coins' },
-//    //    { title: 'Eat mushrooms' },
-//    //    { title: 'Get high enough to grab the flag' },
-//    //    { title: 'Find the princess' }
-//    //];
-
-//    $ionicModal.fromTemplateUrl('new-task.html', function (modal) {
-//        $scope.taskModal = modal;
-//    }, {
-//        scope: $scope,
-//        animation: 'slide-in-up'
-//    });
-
-//    // Called when the form is submitted
-//    $scope.createTask = function (task) {
-//        if (task.title)
-//        {
-//            $scope.tasks.push({
-//                title: task.title
-//            });
-//        }
-//        $scope.taskModal.hide();
-//        task.title = "";
-//    };
-
-//    // Open our new task modal
-//    $scope.newTask = function () {
-//        $scope.taskModal.show();
-//    };
-
-//    // Close the new task modal
-//    $scope.closeNewTask = function () {
-//        $scope.taskModal.hide();
-//    };
-
-//})
-
-
