@@ -34,59 +34,21 @@
       </ion-content>
     </ion-pane>-->
     
+    <div ng-include="'templates/main-menu.html'"></div>
 
-    <ion-side-menus>
-        <ion-side-menu-content>
-            <ion-header-bar class="bar-dark">
-                <button class="button button-icon" ng-click="toggleProjects()">
-                    <i class="icon ion-navicon"></i>
-                </button>
+    <div ng-include="templates/new-task.html"></div>
 
-                <h1 class="title">{{ activeProject.title }}</h1>
-                
-                <button class="button button-icon" ng-click="newTask()">
-                    <i class="button-icon ion-compose"></i>
-                </button>
-            </ion-header-bar>
-
-            <!-- Our list and list items -->
-            <ion-content>
-                <ion-list>
-                    <ion-item ng-repeat="task in activeProject.tasks">
-                        {{ task.title }}
-                    </ion-item>
-                </ion-list>
-            </ion-content>
-        </ion-side-menu-content>
-
-        <ion-side-menu side="left">
-            <ion-header-bar class="bar-dark">
-                <h1 class="title">Projects</h1>
-                <button class="button button-icon ion-plus" ng-click="newProject()"></button>
-            </ion-header-bar>
-            <ion-content scroll="false">
-                <ion-list>
-                    <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" 
-                              ng-class="{active: activeProject == project}" >
-                        {{ project.title }}
-                    </ion-item>
-                </ion-list>
-            </ion-content>
-
-        </ion-side-menu>
-    </ion-side-menus>
-
-    <script id="new-task.html" type="text/ng-template">
+    <!--<script id="new-task.html" type="text/ng-template">
         <div class="modal">
 
-            <!-- Modal header bar -->
+            <!-- Modal header bar -- >
             <ion-header-bar class="bara-secondary">
                 <h1 class="title">New Task</h1>
-                <!-- todo: check if this sufferes from the double click error, if so change to <a> tag -->
+                <!-- todo: check if this sufferes from the double click error, if so change to <a> tag -- >
                 <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
             </ion-header-bar>
 
-            <!-- Modal content area -->
+            <!-- Modal content area -- >
             <ion-content>
                 <form ng-submit="createTask(task)">
                     <div class="list">
@@ -100,6 +62,6 @@
                 </form>
             </ion-content>
         </div>
-    </script>
+    </script>-->
 </body>
 </html>
